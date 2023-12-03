@@ -2,20 +2,21 @@ import os
 import csv
 from datetime import datetime, timedelta
 
+user_credentials = {'admin': '1234'}
+
 def handle_login():
     print("1. Login")
     print("2. Change Password")
 
-    choice=0
-    while choice != 1 and choice!=2:
-
+    choice = 0
+    while choice != 1 and choice != 2:
         choice = int(input("Enter your choice: "))
 
         if choice == 1:
             username = input("Enter Username: ")
             password = input("Enter Password: ")
 
-            if username == 'admin' and password == '1234':
+            if username in user_credentials and user_credentials[username] == password:
                 dashboard()
             else:
                 print('Error', 'Invalid username or password')
@@ -25,14 +26,16 @@ def handle_login():
             print("Invalid choice")
 
 def change_password():
+    username = input("Enter username: ")
     old_password = input("Enter old password: ")
-    if old_password == '1234':  # Replace with your actual old password check
+
+    if username in user_credentials and user_credentials[username] == old_password:
         new_password = input("Enter new password: ")
-        # Update the password in your system (e.g., a database or file)
+        user_credentials[username] = new_password  
         print("Password changed successfully!")
         handle_login()
     else:
-        print("Incorrect old password")
+        print("Incorrect old password or username")
 
 def addBook():
     print("Add a new Book Record")
@@ -226,6 +229,7 @@ def dashboard():
         print('\n')
         print("########################")
         print("        Dashboard")
+        print("       Welcome Admin")
         print("########################")
         print("1. Add a new Book Record")
         print("2. Edit Existing Book Record")
